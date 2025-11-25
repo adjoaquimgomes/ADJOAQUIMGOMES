@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Site em Manutenção — Átrios de Adoração</title>
+  
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background: #0a0a0a;
+      color: white;
+      text-align: center;
+    }
+
+    header {
+      padding: 18px;
+      background: #111;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      border-bottom: 1px solid #222;
+    }
+
+    header img {
+      height: 55px;
+      width: auto;
+    }
+
+    .container {
+      margin-top: 60px;
+      padding: 20px;
+    }
+
+    h1 {
+      font-size: 28px;
+      margin-bottom: 10px;
+    }
+
+    .timer {
+      margin-top: 25px;
+      font-size: 22px;
+      font-weight: bold;
+      color: #00c8ff;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <img src="AD JOAQUIM GOMES - BLACK.jpg" alt="Logo Átrios de Adoração">
+  <span style="font-size:26px; font-weight:bold;">Átrios de Adoração</span>
+</header>
+
+<div class="container">
+  <h1>O site está em manutenção</h1>
+  <p>Voltaremos em alguns minutos! Obrigado pela paciência.</p>
+
+  <div class="timer" id="contador">Carregando...</div>
+</div>
+
+<script>
+  // CONTADOR GLOBAL até 25/11/2025 às 16:30
+  const fim = new Date("2025-11-25T16:30:00-03:00").getTime();
+
+  function atualizar() {
+    const agora = new Date().getTime();
+    const diff = fim - agora;
+
+    if (diff <= 0) {
+      document.getElementById("contador").innerHTML = "Estamos voltando!";
+      return;
+    }
+
+    const min = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    const seg = Math.floor((diff % (1000 * 60)) / 1000);
+
+    document.getElementById("contador").innerHTML =
+      `Retornaremos em: ${min}min ${seg}s`;
+  }
+
+  atualizar();
+  setInterval(atualizar, 1000);
+</script>
+
+</body>
+</html>
