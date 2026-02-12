@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CONJOSSAD 2026</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800;900&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+:root{
+ --gold:#f1c40f;
+ --dark:#0f0f0f;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+
+body{
+ font-family:'Inter',sans-serif;
+ background:#111;
+ color:#fff;
+ overflow-x:hidden;
+}
+
+/* NAV */
+nav{
+ position:fixed;
+ width:100%;
+ top:0;
+ background:rgba(0,0,0,0.6);
+ backdrop-filter:blur(10px);
+ padding:15px 30px;
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ z-index:1000;
+}
+
+nav img{ height:50px; }
+
+.inicio-link{
+ color:var(--gold);
+ text-decoration:none;
+ font-weight:600;
+ font-size:16px;
+ letter-spacing:1px;
+ transition:.3s;
+}
+
+.inicio-link:hover{
+ opacity:0.7;
+}
+
+/* HERO */
+.hero{
+ height:100vh;
+ background:url('CONJOSSAD 2026 1.jpg') center/cover no-repeat;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ text-align:center;
+ position:relative;
+}
+.hero::after{
+ content:'';
+ position:absolute;
+ inset:0;
+ background:linear-gradient(to bottom,rgba(0,0,0,0.7),rgba(0,0,0,0.9));
+}
+.hero-content{
+ position:relative;
+ z-index:2;
+}
+.hero-content h2{
+ letter-spacing:4px;
+ margin-bottom:20px;
+ font-weight:400;
+}
+.hero-content h1{
+ font-family:'Cinzel',serif;
+ font-size:80px;
+ background:linear-gradient(45deg,#f1c40f,#ffd86f);
+ -webkit-background-clip:text;
+ -webkit-text-fill-color:transparent;
+ text-shadow:0 0 40px rgba(241,196,15,0.4);
+}
+
+/* CONTADOR */
+.countdown{
+ margin-top:40px;
+ display:flex;
+ gap:25px;
+ justify-content:center;
+}
+.count-item{
+ background:rgba(255,255,255,0.05);
+ padding:20px;
+ border-radius:20px;
+ backdrop-filter:blur(10px);
+ min-width:90px;
+}
+.count-item span{
+ font-size:32px;
+ font-weight:700;
+ color:var(--gold);
+}
+
+/* SEÇÕES */
+section{
+ padding:100px 20px;
+ text-align:center;
+}
+h2{
+ font-family:'Cinzel',serif;
+ font-size:42px;
+ margin-bottom:50px;
+ color:var(--gold);
+}
+
+/* DESCRIÇÃO */
+.descricao{
+ max-width:800px;
+ margin:auto;
+ font-size:18px;
+ line-height:1.8;
+}
+
+/* PRELETORES */
+.preletores img{
+ max-width:1000px;
+ width:100%;
+ border-radius:30px;
+ box-shadow:0 30px 80px rgba(0,0,0,0.6);
+}
+
+/* GALERIA */
+.gallery-grid{
+ display:grid;
+ grid-template-columns:repeat(auto-fill,minmax(250px,1fr));
+ gap:30px;
+}
+.gallery-grid img{
+ width:100%;
+ border-radius:20px;
+ transition:.4s;
+ cursor:pointer;
+}
+.gallery-grid img:hover{
+ transform:scale(1.08);
+ box-shadow:0 20px 60px rgba(0,0,0,0.7);
+}
+
+/* LIGHTBOX */
+.lightbox{
+ position:fixed;
+ inset:0;
+ background:rgba(0,0,0,0.9);
+ display:none;
+ justify-content:center;
+ align-items:center;
+ z-index:2000;
+}
+.lightbox img{
+ max-width:90%;
+ max-height:90%;
+ border-radius:20px;
+}
+.lightbox.active{
+ display:flex;
+}
+
+/* MAPA */
+iframe{
+ width:90%;
+ max-width:1000px;
+ height:450px;
+ border:none;
+ border-radius:25px;
+ box-shadow:0 20px 60px rgba(0,0,0,0.7);
+}
+
+/* INSTAGRAM */
+.instagram{
+ position:fixed;
+ bottom:30px;
+ right:30px;
+ width:70px;
+ height:70px;
+ border-radius:50%;
+ background:radial-gradient(circle at 30% 30%,#f58529,#dd2a7b,#8134af,#515bd4);
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ box-shadow:0 15px 40px rgba(0,0,0,0.6);
+ transition:.3s;
+}
+.instagram:hover{ transform:scale(1.1); }
+.instagram svg{ width:30px; fill:#fff; }
+</style>
+</head>
+
+<body>
+
+<nav>
+<a href="index.html" class="inicio-link">INÍCIO</a>
+<img src="AD JOAQUIM GOMES.png">
+</nav>
+
+<section class="hero">
+<div class="hero-content">
+<h2>14 A 18 DE FEVEREIRO</h2>
+<h1>CONJOSSAD 2026</h1>
+<div class="countdown">
+<div class="count-item"><span id="dias">0</span><br>Dias</div>
+<div class="count-item"><span id="horas">0</span><br>Horas</div>
+<div class="count-item"><span id="minutos">0</span><br>Min</div>
+<div class="count-item"><span id="segundos">0</span><br>Seg</div>
+</div>
+</div>
+</section>
+
+<section>
+<h2>Sobre o Congresso</h2>
+<div class="descricao">
+Congresso de Jovens, Senhoras e Senhores.<br><br>
+📅 14 a 18 de Fevereiro<br>
+📍 Quadra dos Terrenos<br><br>
+Prepare-se para viver dias de avivamento e manifestação do poder de Deus.
+</div>
+</section>
+
+<section class="preletores">
+<h2>Preletores, Cantores</h2>
+<img src="Page do Conjossad.jpg">
+</section>
+
+<section>
+<h2>PROGRAMAÇÃO</h2>
+<div class="gallery-grid">
+<img src="CONJOSSAD 2026/CONJOSSAD 2026 1.jpg">
+<img src="CONJOSSAD 2026/CONJOSSAD 2026 2.jpg">
+<img src="CONJOSSAD 2026/CONJOSSAD 2026 3.jpg">
+<img src="CONJOSSAD 2026/CONJOSSAD 2026 4.jpg">
+<img src="CONJOSSAD 2026/CONJOSSAD 2026 5.jpg">
+<img src="CONJOSSAD 2026/CONJOSSAD 2026 6.jpg">
+</div>
+</section>
+
+<section>
+<h2>Local do Evento</h2>
+<iframe src="https://www.google.com/maps?q=Quadra+dos+Terrenos,+Joaquim+Gomes&output=embed"></iframe>
+</section>
+
+<a href="https://www.instagram.com/ad.joaquimgomes" class="instagram" target="_blank">
+<svg viewBox="0 0 24 24">
+<path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2zm0 2A3.75 3.75 0 0 0 4 7.75v8.5A3.75 3.75 0 0 0 7.75 20h8.5A3.75 3.75 0 0 0 20 16.25v-8.5A3.75 3.75 0 0 0 16.25 4h-8.5zm4.25 3.5A4.75 4.75 0 1 1 7.25 12 4.75 4.75 0 0 1 12 7.5zm0 2A2.75 2.75 0 1 0 14.75 12 2.75 2.75 0 0 0 12 9.5zm4.5-2.75a1 1 0 1 1-1 1 1 1 0 0 1 1-1z"/>
+</svg>
+</a>
+
+<div class="lightbox" id="lightbox">
+<img id="lightbox-img">
+</div>
+
+<script>
+const evento = new Date("2026-02-14T19:00:00").getTime();
+
+setInterval(()=>{
+ const agora = new Date().getTime();
+ const distancia = evento - agora;
+ document.getElementById("dias").innerText = Math.floor(distancia/(1000*60*60*24));
+ document.getElementById("horas").innerText = Math.floor((distancia%(1000*60*60*24))/(1000*60*60));
+ document.getElementById("minutos").innerText = Math.floor((distancia%(1000*60*60))/(1000*60));
+ document.getElementById("segundos").innerText = Math.floor((distancia%(1000*60))/1000);
+},1000);
+
+const lightbox = document.getElementById("lightbox");
+const lightboxImg = document.getElementById("lightbox-img");
+
+document.querySelectorAll(".gallery-grid img").forEach(img=>{
+ img.addEventListener("click",()=>{
+   lightbox.classList.add("active");
+   lightboxImg.src = img.src;
+ });
+});
+
+lightbox.addEventListener("click",()=>{
+ lightbox.classList.remove("active");
+});
+</script>
+
+</body>
+</html>
