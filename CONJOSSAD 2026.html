@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CONJOSSAD 2026</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800;900&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+:root{
+ --fire-red:#ff4500;
+ --fire-orange:#ff8c00;
+ --gold:#ffeb3b;
+ --dark:#0f0f0f;
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+
+body{
+ font-family:'Inter',sans-serif;
+ background:linear-gradient(to bottom,#0f0f0f 0%,#3a1f00 45%,#0f0f0f 100%);
+ color:#fff;
+ overflow-x:hidden;
+}
+
+/* NAV */
+nav{
+ position:fixed;
+ width:100%;
+ top:0;
+ background:rgba(15,15,15,0.85);
+ backdrop-filter:blur(12px);
+ padding:15px 30px;
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ z-index:1000;
+ border-bottom:1px solid rgba(255,140,0,0.2);
+}
+
+nav img{ height:50px; }
+
+.inicio-link{
+ color:var(--fire-orange);
+ text-decoration:none;
+ font-weight:700;
+ font-size:16px;
+ letter-spacing:1.5px;
+ transition:.3s;
+}
+
+.inicio-link:hover{
+ color:var(--gold);
+ text-shadow:0 0 15px var(--fire-red);
+}
+
+/* HERO COM FOGO */
+.hero{
+ height:100vh;
+ background:url('CONJOSSAD 2026 1.jpg') center/cover no-repeat;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ text-align:center;
+ position:relative;
+ overflow:hidden;
+}
+
+.hero::after{
+ content:'';
+ position:absolute;
+ inset:0;
+ background:linear-gradient(to bottom,rgba(15,15,15,0.25),rgba(58,31,0,0.65),rgba(15,15,15,0.95));
+ z-index:1;
+}
+
+/* CHAMAS ANIMADAS (igual ao cartaz!) */
+.flame-container{
+ position:absolute;
+ bottom:0;
+ left:0;
+ width:100%;
+ height:45%;
+ z-index:2;
+ pointer-events:none;
+}
+
+.flame{
+ position:absolute;
+ bottom:0;
+ background:linear-gradient(to top,#c41e00,#ff4500,#ff8c00,#ffeb3b);
+ border-radius:50% 50% 0 0;
+ filter:blur(12px);
+ opacity:0.9;
+ animation:flame-flicker 1.4s infinite ease-in-out;
+}
+
+.flame1{left:8%; width:110px; height:280px; animation-delay:0s;}
+.flame2{left:23%; width:70px; height:210px; animation-delay:0.25s;}
+.flame3{left:37%; width:95px; height:255px; animation-delay:0.6s;}
+.flame4{left:53%; width:65px; height:225px; animation-delay:0.1s;}
+.flame5{left:68%; width:105px; height:245px; animation-delay:0.45s;}
+.flame6{left:83%; width:75px; height:200px; animation-delay:0.75s;}
+
+@keyframes flame-flicker{
+ 0%,100%{transform:scaleY(1) skew(0deg);}
+ 50%{transform:scaleY(1.12) skew(7deg);}
+}
+
+/* CONTEÚDO DO HERO */
+.hero-content{
+ position:relative;
+ z-index:3;
+}
+
+.hero-content h2{
+ letter-spacing:5px;
+ margin-bottom:25px;
+ font-weight:400;
+ color:var(--gold);
+ text-shadow:0 0 20px var(--fire-red);
+}
+
+.hero-content h1{
+ font-family:'Cinzel',serif;
+ font-size:82px;
+ background:linear-gradient(45deg,#ffeb3b,#ff8c00,#ff4500);
+ -webkit-background-clip:text;
+ -webkit-text-fill-color:transparent;
+ text-shadow:0 0 35px #ff4500,
+            0 0 70px #ff8c00;
+}
+
+/* CONTADOR (NEM MEXI) */
+.countdown{
+ margin-top:40px;
+ display:flex;
+ gap:25px;
+ justify-content:center;
+}
+.count-item{
+ background:rgba(255,140,0,0.12);
+ padding:20px;
+ border-radius:20px;
+ backdrop-filter:blur(10px);
+ min-width:90px;
+ border:2px solid var(--fire-orange);
+ box-shadow:0 0 25px rgba(255,69,0,0.6);
+}
+.count-item span{
+ font-size:32px;
+ font-weight:700;
+ color:var(--gold);
+}
+
+/* SEÇÕES */
+section{
+ padding:100px 20px;
+ text-align:center;
+}
+h2{
+ font-family:'Cinzel',serif;
+ font-size:42px;
+ margin-bottom:50px;
+ color:var(--fire-orange);
+ text-shadow:0 0 25px var(--fire-red);
+}
+
+/* OUTROS ESTILOS (mantidos) */
+.descricao{
+ max-width:800px;
+ margin:auto;
+ font-size:18px;
+ line-height:1.8;
+}
+
+.preletores img{
+ max-width:1000px;
+ width:100%;
+ border-radius:30px;
+ box-shadow:0 30px 80px rgba(255,69,0,0.4);
+}
+
+.gallery-grid{
+ display:grid;
+ grid-template-columns:repeat(auto-fill,minmax(250px,1fr));
+ gap:30px;
+}
+.gallery-grid img{
+ width:100%;
+ border-radius:20px;
+ transition:.4s;
+ cursor:pointer;
+}
+.gallery-grid img:hover{
+ transform:scale(1.08);
+ box-shadow:0 20px 60px rgba(255,69,0,0.5);
+}
+
+/* LIGHTBOX */
+.lightbox{
+ position:fixed;
+ inset:0;
+ background:rgba(0,0,0,0.95);
+ display:none;
+ justify-content:center;
+ align-items:center;
+ z-index:2000;
+}
+.lightbox img{
+ max-width:90%;
+ max-height:90%;
+ border-radius:20px;
+}
+.lightbox.active{
+ display:flex;
+}
+
+/* MAPA */
+iframe{
+ width:90%;
+ max-width:1000px;
+ height:450px;
+ border:none;
+ border-radius:25px;
+ box-shadow:0 20px 60px rgba(255,69,0,0.4);
+}
+
+/* INSTAGRAM */
+.instagram{
+ position:fixed;
+ bottom:30px;
+ right:30px;
+ width:70px;
+ height:70px;
+ border-radius:50%;
+ background:radial-gradient(circle at 30% 30%,#f58529,#dd2a7b,#8134af,#515bd4);
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ box-shadow:0 15px 40px rgba(255,69,0,0.6);
+ transition:.3s;
+}
+.instagram:hover{ transform:scale(1.15); }
+.instagram svg{ width:30px; fill:#fff; }
+
+/* RESPONSIVIDADE */
+@media (max-width:1024px){
+ .hero-content h1{ font-size:62px; }
+}
+
+@media (max-width:768px){
+ nav{ padding:12px 20px; }
+ nav img{ height:40px; }
+ .inicio-link{ font-size:14px; }
+ .hero-content h1{ font-size:48px; }
+ .hero-content h2{ font-size:14px; letter-spacing:2px; }
+ .countdown{ flex-wrap:wrap; gap:15px; }
+ .count-item{ min-width:75px; padding:15px; }
+ .count-item span{ font-size:24px; }
+ section{ padding:80px 15px; }
+ h2{ font-size:32px; }
+ .flame-container{height:35%;}
+}
+
+@media (max-width:480px){
+ .hero-content h1{ font-size:36px; }
+ .count-item{ min-width:65px; padding:12px; }
+ .count-item span{ font-size:20px; }
+ h2{ font-size:26px; }
+ .flame-container{height:30%;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+<a href="index.html" class="inicio-link">INÍCIO</a>
+<img src="AD JOAQUIM GOMES.png">
+</nav>
+
+<section class="hero">
+<div class="hero-content">
+<h2>14 A 18 DE FEVEREIRO</h2>
+<h1>CONJOSSAD 2026</h1>
+<div class="countdown">
+<div class="count-item"><span id="dias">0</span><br>Dias</div>
+<div class="count-item"><span id="horas">0</span><br>Horas</div>
+<div class="count-item"><span id="minutos">0</span><br>Min</div>
+<div class="count-item"><span id="segundos">0</span><br>Seg</div>
+</div>
+</div>
+
+<!-- CHAMAS ANIMADAS -->
+<div class="flame-container">
+<div class="flame flame1"></div>
+<div class="flame flame2"></div>
+<div class="flame flame3"></div>
+<div class="flame flame4"></div>
+<div class="flame flame5"></div>
+<div class="flame flame6"></div>
+</div>
+</section>
+
+<section>
+<h2>Sobre o Congresso</h2>
+<div class="descricao">
+Congresso de Jovens, Senhoras e Senhores.<br><br>
+📅 14 a 18 de Fevereiro<br>
+📍 Quadra dos Terrenos<br><br>
+Prepare-se para viver dias de avivamento e manifestação do poder de Deus.
+</div>
+</section>
+
+<section class="preletores">
+<h2>Preletores, Cantores</h2>
+<img src="Page do Conjossad.jpg">
+</section>
+
+<section>
+<h2>PROGRAMAÇÃO</h2>
+<div class="gallery-grid">
+<img src="CONJOSSAD 2026/CONJOSSAD 2026 1.jpg">
+<img src="CONJOSSAD 2026/CONJOSSAD 2026 2.jpg">
+<img src="CONJOSSAD 2026/CONJOSSAD 2026 3.jpeg">
+<img src="CONJOSSAD 2026/CONJOSSAD 2026 4.jpeg">
+<img src="CONJOSSAD 2026/CONJOSSAD 2026 5.jpeg">
+<img src="CONJOSSAD 2026/CONJOSSAD 2026 6.jpg">
+</div>
+</section>
+
+<section>
+<h2>Local do Evento</h2>
+<iframe src="https://www.google.com/maps?q=Quadra+dos+Terrenos,+Joaquim+Gomes&output=embed"></iframe>
+</section>
+
+<a href="https://www.instagram.com/ad.joaquimgomes?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" class="instagram" target="_blank">
+<svg viewBox="0 0 24 24">
+<path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2zm0 2A3.75 3.75 0 0 0 4 7.75v8.5A3.75 3.75 0 0 0 7.75 20h8.5A3.75 3.75 0 0 0 20 16.25v-8.5A3.75 3.75 0 0 0 16.25 4h-8.5zm4.25 3.5A4.75 4.75 0 1 1 7.25 12 4.75 4.75 0 0 1 12 7.5zm0 2A2.75 2.75 0 1 0 14.75 12 2.75 2.75 0 0 0 12 9.5zm4.5-2.75a1 1 0 1 1-1 1 1 1 0 0 1 1-1z"/>
+</svg>
+</a>
+
+<div class="lightbox" id="lightbox">
+<img id="lightbox-img">
+</div>
+
+<script>
+const evento = new Date("2026-02-14T19:00:00").getTime();
+
+setInterval(()=>{
+ const agora = new Date().getTime();
+ const distancia = evento - agora;
+ document.getElementById("dias").innerText = Math.floor(distancia/(1000*60*60*24));
+ document.getElementById("horas").innerText = Math.floor((distancia%(1000*60*60*24))/(1000*60*60));
+ document.getElementById("minutos").innerText = Math.floor((distancia%(1000*60*60))/(1000*60));
+ document.getElementById("segundos").innerText = Math.floor((distancia%(1000*60))/1000);
+},1000);
+
+const lightbox = document.getElementById("lightbox");
+const lightboxImg = document.getElementById("lightbox-img");
+
+document.querySelectorAll(".gallery-grid img").forEach(img=>{
+ img.addEventListener("click",()=>{
+   lightbox.classList.add("active");
+   lightboxImg.src = img.src;
+ });
+});
+
+lightbox.addEventListener("click",()=>{
+ lightbox.classList.remove("active");
+});
+</script>
+
+</body>
+</html>

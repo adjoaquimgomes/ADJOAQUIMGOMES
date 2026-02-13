@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CONADKIDS 2026</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+:root{
+ --blue1:#a8dcff;
+ --blue2:#4bb4f2;
+ --orange1:#ff5a00;
+ --orange2:#ff8c3a;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+
+html{scroll-behavior:smooth;}
+
+body{
+ font-family:'Inter',sans-serif;
+ background:linear-gradient(to bottom,var(--blue1) 0%,#ffffff 55%,var(--orange2) 100%);
+ overflow-x:hidden;
+ position:relative;
+}
+
+/* NUVENS ANIMADAS (igual ao cartaz!) */
+.cloud-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.cloud {
+  position: absolute;
+  background: #ffffff;
+  border-radius: 50%;
+  box-shadow: 0 10px 30px rgba(255,255,255,0.9);
+  opacity: 0.85;
+  animation: drift linear infinite;
+}
+
+.cloud::before, .cloud::after {
+  content: '';
+  position: absolute;
+  background: #ffffff;
+  border-radius: 50%;
+}
+
+/* Nuvem 1 (grande, lenta) */
+.cloud1 { width: 280px; height: 85px; top: 12%; left: -300px; animation-duration: 200s; }
+.cloud1::before { width: 130px; height: 130px; top: -65px; left: 45px; }
+.cloud1::after { width: 160px; height: 85px; top: -35px; left: 130px; }
+
+/* Nuvem 2 (média) */
+.cloud2 { width: 190px; height: 65px; top: 28%; left: -250px; animation-duration: 150s; animation-delay: -30s; opacity: 0.75; }
+.cloud2::before { width: 95px; height: 95px; top: -48px; left: 32px; }
+.cloud2::after { width: 115px; height: 65px; top: -22px; left: 85px; }
+
+/* Nuvem 3 (grande, bem alta) */
+.cloud3 { width: 320px; height: 95px; top: 5%; left: -400px; animation-duration: 240s; animation-delay: -70s; }
+.cloud3::before { width: 150px; height: 150px; top: -75px; left: 55px; }
+.cloud3::after { width: 180px; height: 95px; top: -40px; left: 160px; }
+
+/* Nuvem 4 (laranja, estilo do cartaz) */
+.cloud4 { width: 210px; height: 72px; top: 48%; left: -280px; animation-duration: 170s; animation-delay: -110s; 
+          background: #ffe0c2; box-shadow: 0 10px 30px rgba(255,140,58,0.4); }
+.cloud4::before, .cloud4::after { background: #ffe0c2; }
+.cloud4::before { width: 105px; height: 105px; top: -52px; left: 38px; }
+.cloud4::after { width: 125px; height: 72px; top: -26px; left: 95px; }
+
+/* Nuvem 5 (pequena e rápida) */
+.cloud5 { width: 165px; height: 55px; top: 22%; left: -220px; animation-duration: 110s; animation-delay: -15s; opacity: 0.8; }
+.cloud5::before { width: 75px; height: 75px; top: -38px; left: 28px; }
+.cloud5::after { width: 95px; height: 55px; top: -18px; left: 75px; }
+
+@keyframes drift {
+  from { transform: translateX(-400px); }
+  to { transform: translateX(calc(100vw + 500px)); }
+}
+
+/* NAV */
+nav{
+ position:fixed;
+ width:100%;
+ padding:15px 30px;
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ background:rgba(255,255,255,0.8);
+ backdrop-filter:blur(10px);
+ z-index:1000;
+}
+
+.logo{
+ height:55px;
+}
+
+.nav-left{
+ display:flex;
+ align-items:center;
+ gap:15px;
+}
+
+.inicio-link{
+ text-decoration:none;
+ font-weight:700;
+ color:var(--orange1);
+}
+
+.instagram{
+ width:28px;
+ transition:.3s;
+}
+.instagram:hover{transform:scale(1.1);}
+
+/* HERO */
+.hero{
+ min-height:100vh;
+ display:flex;
+ flex-direction:column;
+ justify-content:center;
+ align-items:center;
+ text-align:center;
+ padding:120px 20px 60px;
+ position:relative;
+}
+
+.hero h2{
+ color:var(--orange1);
+ margin-bottom:20px;
+ font-weight:700;
+}
+
+.hero h1{
+ font-family:'Baloo 2',cursive;
+ font-size:clamp(50px,10vw,120px);
+ background:linear-gradient(to bottom,#ffffff,#d6ecff);
+ -webkit-background-clip:text;
+ -webkit-text-fill-color:transparent;
+ position:relative;
+}
+
+.hero h1::before{
+ content:attr(data-text);
+ position:absolute;
+ left:0;
+ top:0;
+ z-index:-1;
+ -webkit-text-stroke:clamp(5px,1vw,12px) var(--orange1);
+ color:transparent;
+}
+
+/* CONTADOR */
+.countdown{
+ display:flex;
+ gap:20px;
+ flex-wrap:wrap;
+ justify-content:center;
+ margin-top:40px;
+}
+
+.count-item{
+ background:var(--orange1);
+ color:white;
+ padding:18px;
+ border-radius:25px;
+ min-width:85px;
+ box-shadow:0 10px 20px rgba(0,0,0,0.2);
+ font-weight:700;
+}
+
+.count-item span{
+ display:block;
+ font-size:26px;
+}
+
+/* SEÇÕES */
+section{
+ padding:100px 20px;
+ text-align:center;
+}
+
+section h2{
+ font-family:'Baloo 2',cursive;
+ font-size:clamp(28px,6vw,40px);
+ color:var(--blue2);
+ margin-bottom:40px;
+}
+
+/* GALERIA */
+.gallery{
+ display:grid;
+ grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+ gap:20px;
+ max-width:1000px;
+ margin:auto;
+}
+
+.gallery img{
+ width:100%;
+ border-radius:20px;
+ cursor:pointer;
+ transition:0.3s;
+ box-shadow:0 10px 20px rgba(0,0,0,0.2);
+}
+
+.gallery img:hover{transform:scale(1.05);}
+
+/* LIGHTBOX */
+.lightbox{
+ position:fixed;
+ inset:0;
+ background:rgba(0,0,0,0.95);
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ opacity:0;
+ visibility:hidden;
+ transition:0.3s;
+ z-index:2000;
+}
+
+.lightbox.active{
+ opacity:1;
+ visibility:visible;
+}
+
+.lightbox img{
+ max-width:90%;
+ max-height:85%;
+ border-radius:20px;
+}
+
+.close{
+ position:absolute;
+ top:20px;
+ right:25px;
+ font-size:35px;
+ color:white;
+ cursor:pointer;
+}
+
+.arrow{
+ position:absolute;
+ top:50%;
+ transform:translateY(-50%);
+ font-size:45px;
+ color:white;
+ cursor:pointer;
+ user-select:none;
+ padding:25px;
+}
+
+.arrow.left{left:10px;}
+.arrow.right{right:10px;}
+
+iframe{
+ width:100%;
+ max-width:1000px;
+ height:400px;
+ border:none;
+ border-radius:25px;
+ box-shadow:0 20px 40px rgba(0,0,0,0.2);
+}
+
+@media(max-width:600px){
+ nav{padding:10px 15px;}
+ .logo{height:40px;}
+ iframe{height:300px;}
+}
+</style>
+</head>
+
+<body>
+
+<!-- NUVENS -->
+<div class="cloud-container">
+  <div class="cloud cloud1"></div>
+  <div class="cloud cloud2"></div>
+  <div class="cloud cloud3"></div>
+  <div class="cloud cloud4"></div>
+  <div class="cloud cloud5"></div>
+</div>
+
+<nav>
+<div class="nav-left">
+    <a href="index.html" class="inicio-link">INÍCIO</a>
+    <a href="https://www.instagram.com/ad.joaquimgomes?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank">
+        <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" class="instagram">
+    </a>
+</div>
+<img src="AD JOAQUIM GOMES.png" class="logo">
+</nav>
+
+<section class="hero" id="inicio">
+<h2>14 A 18 DE FEVEREIRO</h2>
+<h1 data-text="CONADKIDS 2026">CONADKIDS 2026</h1>
+
+<div class="countdown">
+<div class="count-item"><span id="dias">0</span>Dias</div>
+<div class="count-item"><span id="horas">0</span>Horas</div>
+<div class="count-item"><span id="minutos">0</span>Min</div>
+<div class="count-item"><span id="segundos">0</span>Seg</div>
+</div>
+</section>
+
+<section>
+<h2>Programação</h2>
+<div class="gallery">
+<img src="CONAD KIDS 2026/KIDS 1.jpeg">
+<img src="CONAD KIDS 2026/KIDS 2.jpeg">
+<img src="CONAD KIDS 2026/KIDS 3.jpeg">
+</div>
+</section>
+
+<section>
+<h2>Local do Evento</h2>
+<iframe src="https://www.google.com/maps?q=Assembleia+de+Deus+Terrenos+Joaquim+Gomes+AL&output=embed"></iframe>
+</section>
+
+<div class="lightbox">
+<span class="close">&times;</span>
+<span class="arrow left">&#10094;</span>
+<img src="">
+<span class="arrow right">&#10095;</span>
+</div>
+
+<script>
+/* CONTAGEM REGRESSIVA - ATUALIZADA PARA 19:00 */
+const dataEvento = new Date("2026-02-14T19:00:00").getTime();
+
+setInterval(()=>{
+ const agora = new Date().getTime();
+ const diferenca = dataEvento - agora;
+
+ const dias = Math.floor(diferenca/(1000*60*60*24));
+ const horas = Math.floor((diferenca%(1000*60*60*24))/(1000*60*60));
+ const minutos = Math.floor((diferenca%(1000*60*60))/(1000*60));
+ const segundos = Math.floor((diferenca%(1000*60))/1000);
+
+ document.getElementById("dias").innerText = dias;
+ document.getElementById("horas").innerText = horas;
+ document.getElementById("minutos").innerText = minutos;
+ document.getElementById("segundos").innerText = segundos;
+},1000);
+
+/* LIGHTBOX */
+const imagens = document.querySelectorAll(".gallery img");
+const lightbox = document.querySelector(".lightbox");
+const lightboxImg = lightbox.querySelector("img");
+let indexAtual = 0;
+
+function mostrarImagem(index){
+ indexAtual = index;
+ lightboxImg.src = imagens[index].src;
+ lightbox.classList.add("active");
+}
+
+imagens.forEach((img,i)=>{
+ img.addEventListener("click",()=>mostrarImagem(i));
+});
+
+document.querySelector(".close").onclick=()=>lightbox.classList.remove("active");
+document.querySelector(".arrow.left").onclick=()=>mostrarImagem((indexAtual-1+imagens.length)%imagens.length);
+document.querySelector(".arrow.right").onclick=()=>mostrarImagem((indexAtual+1)%imagens.length);
+
+/* SWIPE MOBILE */
+let startX=0;
+lightbox.addEventListener("touchstart",e=>startX=e.touches[0].clientX);
+lightbox.addEventListener("touchend",e=>{
+ let endX=e.changedTouches[0].clientX;
+ if(endX-startX>50)mostrarImagem((indexAtual-1+imagens.length)%imagens.length);
+ if(startX-endX>50)mostrarImagem((indexAtual+1)%imagens.length);
+});
+</script>
+
+</body>
+</html>
