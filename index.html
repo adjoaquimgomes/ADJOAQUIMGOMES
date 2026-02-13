@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <title>Assembleia de Deus em Joaquim Gomes</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --gold: #c9a227;
+            --dark-gold: #6d4c00;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #f6f4ef; }
+
+        header {
+            background: linear-gradient(135deg, #6d4c00, #a67c00);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .nav { display: flex; justify-content: space-between; align-items: center; padding: 0 20px; }
+        .brand { display: flex; align-items: center; gap: 12px; color: #fff; text-decoration: none; }
+        .brand img { height: 55px; border-radius: 10px; }
+        .brand span { font-family: 'Cinzel', serif; font-weight: 900; font-size: 21px; }
+
+        /* HERO SPLIT - ESQUERDA CONJOSSAD | DIREITA CONADKIDS */
+        .hero-split {
+            min-height: 92vh;
+            display: flex;
+            border-radius: 0 0 35px 35px;
+            overflow: hidden;
+        }
+
+        .hero-left {
+            flex: 1;
+            background: linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.75)), url('CONJOSSAD 2026/CONJOSSAD 2026 1.jpg');
+            background-size: cover;
+            background-position: center top;
+        }
+
+        .hero-right {
+            flex: 1;
+            background: linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.75)), url('CONAD KIDS 2026/KIDS 1.jpeg');
+            background-size: cover;
+            background-position: center top;
+        }
+
+        .hero-content {
+            padding: 70px 40px;
+            max-width: 620px;
+            color: white;
+        }
+
+        .hero h1 {
+            font-family: 'Cinzel', serif;
+            font-size: clamp(38px, 7vw, 68px);
+            margin-bottom: 15px;
+        }
+
+        .hero p { font-size: 19px; margin-bottom: 25px; line-height: 1.4; }
+
+        #countdown-conjossad, #countdown-conadkids {
+            font-size: 26px;
+            font-weight: bold;
+            background: rgba(0,0,0,0.6);
+            padding: 12px 20px;
+            border-radius: 12px;
+            display: inline-block;
+            margin-bottom: 30px;
+        }
+
+        .btn {
+            background: var(--gold);
+            color: #000;
+            padding: 15px 32px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 17px;
+            transition: 0.4s;
+        }
+        .btn:hover { background: white; transform: scale(1.05); }
+
+        /* EVENTOS */
+        .events-section { padding: 100px 20px; }
+        .events-section h2 {
+            text-align: center;
+            font-family: 'Cinzel', serif;
+            font-size: 38px;
+            margin-bottom: 50px;
+            color: var(--dark-gold);
+        }
+
+        .events-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .event-item {
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0,0,0,.1);
+            transition: .4s;
+            text-decoration: none;
+            color: #fff;
+            position: relative;
+        }
+        .event-item:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,.2); }
+
+        .event-item img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            transition: .3s;
+        }
+        .event-item:hover img { transform: scale(1.05); }
+
+        .event-item .content {
+            padding: 25px;
+            text-align: center;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+        }
+        .event-item h3 { font-size: 24px; margin-bottom: 10px; }
+        .event-item p { font-size: 16px; }
+
+        /* CORES PERSONALIZADAS */
+        .event-item[data-title*="CONJOSSAD"] .content { background: linear-gradient(to top, rgba(241,196,15,0.8), transparent); }
+        .event-item[data-title*="CONADKIDS"] .content { background: linear-gradient(to top, rgba(255,123,44,0.8), transparent); }
+        .event-item[data-title*="HISTÓRIA"] .content { background: linear-gradient(to top, rgba(46,204,113,0.8), transparent); }
+        .event-item[data-title*="35 ANIVERSARIO"] .content { background: linear-gradient(to top, rgba(142,45,226,0.8), transparent); }
+
+        /* Responsivo */
+        @media (max-width: 900px) {
+            .hero-split { flex-direction: column; }
+            .hero-left, .hero-right { min-height: 55vh; }
+            .hero-content { padding: 50px 30px; text-align: center; }
+            .nav { flex-direction: column; gap: 10px; }
+            .nav div { margin-top: 10px; }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <div class="nav">
+        <a href="#" class="brand">
+            <img src="AD JOAQUIM GOMES.png" alt="Logo">
+            <span>ASSEMBLEIA DE DEUS JG</span>
+        </a>
+        <div>
+            <a href="#inicio" style="color:white; margin-right:20px;">Início</a>
+            <a href="#eventos" style="color:white;">Eventos</a>
+        </div>
+    </div>
+</header>
+
+<!-- HERO DIVIDIDO -->
+<section class="hero-split" id="inicio">
+    <div class="hero-left">
+        <div class="hero-content">
+            <h1>CONJOSSAD 2026</h1>
+            <p>Uma Nova Vida Pelo Poder do Espírito Santo<br>14 a 18 de Fevereiro de 2026</p>
+            <div id="countdown-conjossad"></div>
+            <a href="CONJOSSAD 2026.html" class="btn">CONJOSSAD →</a>
+        </div>
+    </div>
+
+    <div class="hero-right">
+        <div class="hero-content">
+            <h1>CONADKIDS 2026</h1>
+            <p>Poder do Espírito Santo na Vida da Criança<br>14 a 18 de Fevereiro de 2026</p>
+            <div id="countdown-conadkids"></div>
+            <a href="CONADKIDS.html" class="btn">CONADKIDS →</a>
+        </div>
+    </div>
+</section>
+
+<!-- EVENTOS -->
+<section class="events-section" id="eventos">
+    <h2>Nossos Eventos</h2>
+
+    <div class="events-grid">
+
+        <a href="CONJOSSAD 2026.html" class="event-item" data-title="CONJOSSAD 2026">
+            <img src="CONJOSSAD 2026/CONJOSSAD 2026 1.jpg" alt="CONJOSSAD 2026">
+            <div class="content">
+                <h3>CONJOSSAD 2026</h3>
+                <p>14 a 18 de Fevereiro - Congresso oficial anual da juventude com preletores inspiradores.</p>
+            </div>
+        </a>
+
+        <a href="CONADKIDS.html" class="event-item" data-title="CONADKIDS 2026">
+            <img src="CONAD KIDS 2026/KIDS 1.jpeg" alt="CONADKIDS 2026">
+            <div class="content">
+                <h3>CONADKIDS 2026</h3>
+                <p>Congresso infantil especial com atividades divertidas e ensinamentos bíblicos.</p>
+            </div>
+        </a>
+
+        <a href="HISTÓRIA DO DEPARTAMENTO.html" class="event-item" data-title="HISTÓRIA DO DEPARTAMENTO">
+            <img src="historia do conjunto1.png" alt="História do Departamento">
+            <div class="content">
+                <h3>História do Departamento</h3>
+                <p>Conheça nossa trajetória, conquistas e assista ao vídeo comemorativo.</p>
+            </div>
+        </a>
+
+        <a href="35° Aniversário.html" class="event-item" data-title="35 ANIVERSARIO">
+            <img src="T2.jpg" alt="35° Aniversário">
+            <div class="content">
+                <h3>35° ANIVERSÁRIO</h3>
+                <p>Celebrando 35 anos de fé, história e vitórias na comunidade.</p>
+            </div>
+        </a>
+
+    </div>
+</section>
+
+<footer style="background:#1a0b3d; color:#ccc; text-align:center; padding:40px; margin-top:80px;">
+    © 2026 - Assembleia de Deus Joaquim Gomes
+    <br>
+    <a href="https://www.instagram.com/ad.joaquimgomes?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" style="color: #fff; text-decoration: none; margin-top: 10px; display: inline-block;">Siga-nos no Instagram</a>
+</footer>
+
+<script>
+    function updateCountdown(id) {
+        const countDownDate = new Date("Feb 14, 2026 19:00:00").getTime();
+        const now = new Date().getTime();
+        const distance = countDownDate - now;
+
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        document.getElementById(id).innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+    }
+
+    setInterval(() => {
+        updateCountdown("countdown-conjossad");
+        updateCountdown("countdown-conadkids");
+    }, 1000);
+</script>
+
+</body>
+</html>
