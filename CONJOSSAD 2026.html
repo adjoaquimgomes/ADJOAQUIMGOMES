@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <title>CONJOSSAD 2026 - Assembleia de Deus JG</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --gold: #c9a227; --dark-gold: #6d4c00; --orange: #ff5a00; --ig-red: #ed4956; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #f6f4ef; color: #333; }
+        header { background: linear-gradient(135deg, var(--dark-gold ), var(--gold)); padding: 15px 0; position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 15px rgba(0,0,0,0.15); }
+        .nav { display: flex; justify-content: space-between; align-items: center; padding: 0 20px; }
+        .brand { display: flex; align-items: center; gap: 12px; color: white; text-decoration: none; }
+        .brand img { height: 55px; border-radius: 10px; }
+        .brand span { font-family: 'Cinzel', serif; font-weight: 900; font-size: 21px; }
+        .nav-links a { color: white; margin-left: 25px; text-decoration: none; font-weight: 600; transition: .3s; }
+        .nav-links a:hover { color: var(--orange); }
+        #auth-area { display: flex; align-items: center; gap: 12px; color: white; }
+        #auth-area img { width: 36px; height: 36px; border-radius: 50%; border: 2px solid white; object-fit: cover; }
+        #auth-area button { padding: 6px 14px; background: #ff5a00; color: white; border: none; border-radius: 20px; cursor: pointer; font-weight: bold; }
+        main { padding: 80px 20px 40px; max-width: 1400px; margin: 0 auto; }
+        h1 { text-align: center; font-family: 'Cinzel', serif; color: var(--dark-gold); margin-bottom: 30px; font-size: 2.8rem; }
+        .stories-container { overflow-x: auto; white-space: nowrap; padding: 20px 0; scrollbar-width: thin; scrollbar-color: var(--gold) #ddd; min-height: 200px; }
+        .story-card { display: inline-block; width: 280px; height: 480px; margin-right: 16px; border-radius: 20px; overflow: hidden; position: relative; background: #000; box-shadow: 0 10px 30px rgba(0,0,0,0.2); cursor: pointer; transition: transform 0.3s ease; }
+        .story-card:hover { transform: scale(1.05); }
+        .story-media-container { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; }
+        .story-media { max-width: 100%; max-height: 100%; object-fit: contain; }
+        .story-overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, transparent 60%, rgba(0,0,0,0.85)); display: flex; flex-direction: column; justify-content: flex-end; padding: 20px; color: white; pointer-events: none; }
+        .story-author { font-weight: bold; font-size: 1.1rem; }
+        .story-actions { display: flex; gap: 20px; align-items: center; }
+        .like-btn { background: none; border: none; font-size: 32px; color: white; cursor: pointer; transition: transform 0.2s; pointer-events: auto; }
+        .like-btn.liked { color: var(--ig-red); }
+        .like-btn.animate { animation: pop 0.4s ease; }
+        @keyframes pop { 0% { transform: scale(1); } 50% { transform: scale(1.6); } 100% { transform: scale(1); } }
+        .comment-section { margin-top: 15px; max-height: 150px; overflow-y: auto; color: white; pointer-events: auto; }
+        .comment { background: rgba(255,255,255,0.1); padding: 8px 12px; border-radius: 12px; margin-bottom: 8px; font-size: 0.9rem; }
+        .comment-input { display: flex; margin-top: 10px; pointer-events: auto; }
+        .comment-input input { flex: 1; padding: 8px 12px; border: none; border-radius: 20px 0 0 20px; background: rgba(255,255,255,0.2); color: white; }
+        .comment-input button { padding: 8px 16px; background: var(--gold); border: none; border-radius: 0 20px 20px 0; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+<header><div class="nav"><a href="index.html" class="brand"><img src="AD JOAQUIM GOMES.png" alt="Logo"><span>ASSEMBLEIA DE DEUS JG</span></a><div class="nav-links"><a href="index.html#inicio">Início</a><a href="index.html#eventos">Eventos</a></div><div id="auth-area"></div></div></header>
+<main><h1>CONJOSSAD 2026</h1><div class="stories-container" id="stories-feed"></div><div class="login-message" id="login-message" style="text-align:center; color:#777; margin-top:20px;">Faça login para ver as fotos e vídeos</div></main>
+
+<script type="module">
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm'
+
+const supabase = createClient(
+  'https://oyvsqldamsbdcapsdehc.supabase.co', 
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im95dnNxbGRhbXNiZGNhcHNkZWhjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzExMjAzNDgsImV4cCI6MjA4NjY5NjM0OH0.dt1KPMhnZEHFAbBuGKzn840PYAc_yQPtJj0vnm8tce0',
+  { auth: { persistSession: true, storage: window.localStorage, autoRefreshToken: true } }
+)
+
+const authArea = document.getElementById('auth-area'), storiesFeed = document.getElementById('stories-feed'), loginMessage = document.getElementById('login-message');
+let currentUser = null;
+let lockingLikes = {}; 
+
+window.login = () => supabase.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: window.location.href } });
+window.logout = () => supabase.auth.signOut().then(() => { localStorage.clear(); location.reload(); });
+
+async function updateAuthUI(user) {
+    if (user) {
+        currentUser = user;
+        const { data: profile } = await supabase.from('users').select('username, avatar').eq('id', user.id).single();
+        authArea.innerHTML = `<img src="${profile?.avatar || user.user_metadata.avatar_url || 'https://via.placeholder.com/36'}" alt="Foto"><span>${profile?.username || user.user_metadata.full_name}</span><button onclick="logout()">Sair</button>`;
+        loginMessage.style.display = 'none'; 
+        loadStories();
+    } else {
+        currentUser = null;
+        authArea.innerHTML = `<button onclick="login()">Entrar com Google</button>`;
+        storiesFeed.innerHTML = '<p style="text-align:center; color:#777; width:100%;">Faça login para ver os momentos</p>';
+        loginMessage.style.display = 'block';
+    }
+}
+
+function loadStories() {
+    const stories = [{id: 1, type: 'image', url: 'CONJOSSAD 2026/CONJOSSAD 2026 1.jpg', author: 'Equipe JG'}, {id: 2, type: 'image', url: 'CONJOSSAD 2026/CONJOSSAD 2026 2.jpg', author: 'Equipe JG'}, {id: 3, type: 'video', url: 'videos/conjossad-apresentacao.mp4', author: 'Ministério de Louvor'}];
+    storiesFeed.innerHTML = '';
+    stories.forEach(s => {
+        const card = document.createElement('div'); card.className = 'story-card';
+        card.innerHTML = `<div class="story-media-container">${s.type==='video' ? `<video class="story-media" muted loop playsinline><source src="${s.url}" type="video/mp4"></video>` : `<img class="story-media" src="${s.url}">`}</div>
+        <div class="story-overlay"><div class="story-author">${s.author}</div><div class="story-actions">
+        <button class="like-btn" data-id="${s.id}" onclick="toggleLike(event, ${s.id}, this)">♡ <span>0</span></button>
+        <button class="comment-btn">💬 <span>0</span></button></div></div>
+        <div class="comment-section" id="comments-${s.id}"></div>
+        <div class="comment-input"><input type="text" placeholder="Comentar..." id="in-${s.id}"><button onclick="addComment(event, ${s.id})">Enviar</button></div>`;
+        storiesFeed.appendChild(card); 
+        loadLikesAndComments(s.id);
+    });
+}
+
+window.toggleLike = async (e, postId, btn) => {
+    e.stopPropagation(); 
+    if (!currentUser) return alert('Faça login para curtir!');
+    
+    if (lockingLikes[postId]) return;
+    lockingLikes[postId] = true;
+
+    const span = btn.querySelector('span');
+    let count = parseInt(span.textContent) || 0;
+    const isLiked = btn.classList.contains('liked');
+    const newCount = isLiked ? Math.max(0, count - 1) : count + 1;
+
+    // Salvar estado visual ANTES de fazer a requisição
+    const originalHTML = btn.innerHTML;
+    const originalClass = btn.className;
+
+    // Feedback visual imediato (Otimista)
+    if (isLiked) {
+        btn.classList.remove('liked');
+        btn.innerHTML = `♡ <span>${newCount}</span>`;
+    } else {
+        btn.classList.add('liked', 'animate');
+        btn.innerHTML = `❤️ <span>${newCount}</span>`;
+        setTimeout(() => btn.classList.remove('animate'), 400);
+    }
+
+    try {
+        if (isLiked) {
+            const { error } = await supabase.from('likes').delete().match({ post_id: postId, user_id: currentUser.id });
+            if (error) throw error;
+            console.log('✓ Curtida removida com sucesso');
+        } else {
+            const { error } = await supabase.from('likes').insert({ post_id: postId, user_id: currentUser.id });
+            if (error) throw error;
+            console.log('✓ Curtida adicionada com sucesso');
+        }
+        // Sucesso! Manter o estado visual
+    } catch (err) { 
+        console.error('❌ Erro ao processar curtida no Supabase:', err);
+        // Reverter apenas em caso de erro
+        btn.innerHTML = originalHTML;
+        btn.className = originalClass;
+        alert('Erro ao processar curtida. Tente novamente.');
+    } finally {
+        // Liberar o lock após um pequeno delay
+        setTimeout(() => { 
+            delete lockingLikes[postId];
+        }, 500);
+    }
+};
+
+async function loadLikesAndComments(postId) {
+    // Busca contagem total
+    const { count, error: countErr } = await supabase.from('likes').select('*', { count: 'exact', head: true }).eq('post_id', postId);
+    if (countErr) console.error('Erro ao buscar contagem:', countErr);
+
+    let jaCurti = false;
+    if (currentUser) {
+        // Busca se o usuário atual curtiu
+        const { data: mine, error: mineErr } = await supabase.from('likes').select('id').eq('post_id', postId).eq('user_id', currentUser.id);
+        if (mineErr) console.error('Erro ao buscar curtida do usuário:', mineErr);
+        jaCurti = mine && mine.length > 0;
+    }
+    
+    const btn = document.querySelector(`.like-btn[data-id="${postId}"]`);
+    // Só atualizar se não estiver em processo de clique (lockingLikes)
+    if (btn && !lockingLikes[postId]) {
+        btn.innerHTML = jaCurti ? `❤️ <span>${count || 0}</span>` : `♡ <span>${count || 0}</span>`;
+        if (jaCurti) btn.classList.add('liked'); else btn.classList.remove('liked');
+    }
+    
+    // Carrega comentários
+    const { data: comms, error: commsErr } = await supabase.from('comments').select('content, users(username)').eq('post_id', postId).order('created_at', { ascending: true });
+    if (commsErr) console.error('Erro ao buscar comentários:', commsErr);
+    
+    const sec = document.getElementById(`comments-${postId}`);
+    if (sec) {
+        sec.innerHTML = comms?.map(c => `<div class="comment"><b style="color:var(--gold)">${c.users?.username || 'Anônimo'}:</b> ${c.content}</div>`).join('') || '';
+        sec.scrollTop = sec.scrollHeight;
+    }
+    
+    // Atualizar contador de comentários
+    const commentBtn = document.querySelector(`.story-card:has(.like-btn[data-id="${postId}"]) .comment-btn span`);
+    if (commentBtn) {
+        commentBtn.textContent = comms?.length || 0;
+    }
+}
+
+window.addComment = async (e, postId) => {
+    const input = document.getElementById(`in-${postId}`);
+    if (!input.value.trim()) return;
+    const { error } = await supabase.from('comments').insert({ post_id: postId, user_id: currentUser.id, content: input.value });
+    if (error) {
+        console.error('Erro ao comentar:', error);
+        alert('Erro ao enviar comentário. Verifique sua conexão.');
+    } else {
+        input.value = ''; 
+        loadLikesAndComments(postId);
+    }
+};
+
+document.addEventListener('DOMContentLoaded', async () => {
+    // Tenta pegar a sessão IMEDIATAMENTE
+    const { data: { session } } = await supabase.auth.getSession();
+    if (session?.user) {
+        await updateAuthUI(session.user);
+    } else {
+        // Se não tiver, tenta de novo após um pequeno delay (caso o storage demore)
+        setTimeout(async () => {
+            const { data: { session: retry } } = await supabase.auth.getSession();
+            if (retry?.user) updateAuthUI(retry.user);
+            else updateAuthUI(null);
+        }, 800);
+    }
+
+    // Escuta mudanças de estado (login/logout)
+    supabase.auth.onAuthStateChange((event, session) => {
+        console.log('Mudança de Auth:', event);
+        updateAuthUI(session?.user || null);
+    });
+});
+</script>
+</body>
+</html>
