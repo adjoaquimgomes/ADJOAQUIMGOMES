@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+<title>CONJOSSAD 2026 - Fotos e Vídeos</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root { 
+  --gold:#c9a227; 
+  --dark-gold:#6d4c00; 
+  --orange:#ff5a00; 
+  --ig-red:#ed4956;
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+html, body {
+  height: 100%;
+  width: 100%;
+}
+
+body{
+  font-family:'Inter',sans-serif;
+  background:#f6f4ef;
+  color:#333;
+  overflow-x:hidden;
+}
+
+/* ===== HEADER ===== */
+header{
+  background:linear-gradient(135deg,var(--dark-gold),var(--gold));
+  padding:12px 15px;
+  position:sticky;
+  top:0;
+  z-index:100;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.nav{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap: 15px;
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  color:white;
+  text-decoration:none;
+}
+
+.brand span{
+  font-family:'Cinzel',serif;
+  font-weight:900;
+  font-size:16px;
+  white-space: nowrap;
+}
+
+#auth-area{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  color:white;
+}
+
+#auth-area img{
+  width:32px;
+  height:32px;
+  border-radius:50%;
+  border:2px solid white;
+  object-fit:cover;
+}
+
+#auth-area span {
+  font-size: 12px;
+  max-width: 80px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#auth-area button{
+  padding:6px 12px;
+  background:#ff5a00;
+  color:white;
+  border:none;
+  border-radius:20px;
+  cursor:pointer;
+  font-weight:bold;
+  font-size:12px;
+}
+
+/* ===== MAIN ===== */
+main{
+  padding:15px;
+  min-height:calc(100vh - 60px);
+}
+
+h1{
+  text-align:center;
+  font-family:'Cinzel',serif;
+  color:var(--dark-gold);
+  margin-bottom:15px;
+  font-size:24px;
+}
+
+/* ===== STORIES CONTAINER ===== */
+.stories-container{
+  display:grid;
+  grid-template-columns: 1fr;
+  gap: 15px;
+  width: 100%;
+}
+
+.story-card{
+  width:100%;
+  background:white;
+  border-radius:12px;
+  overflow:hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  display:flex;
+  flex-direction:column;
+}
+
+/* ===== STORY HEADER ===== */
+.story-header {
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.story-header-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--gold);
+  flex-shrink: 0;
+}
+
+.story-header-name {
+  font-weight: 600;
+  font-size: 13px;
+  color: #333;
+}
+
+/* ===== STORY MEDIA ===== */
+.story-media-container{
+  width:100%;
+  aspect-ratio: 1/1;
+  background:#000;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+  cursor:pointer;
+  overflow: hidden;
+}
+
+.story-media{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.story-media-container.video::after {
+  content: '▶';
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  font-size: 24px;
+  color: white;
+  background: rgba(0, 0, 0, 0.7);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  line-height: 1;
+}
+
+/* ===== INTERACTIONS ===== */
+.interactions-section{
+  padding: 12px;
+  background: white;
+  display: flex;
+  flex-direction: column;
+}
+
+.story-actions {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 8px;
+}
+
+.action-btn {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #333;
+  transition: transform 0.2s;
+}
+
+.action-btn:active {
+  transform: scale(0.95);
+}
+
+.action-btn.liked {
+  color: var(--ig-red);
+}
+
+.likes-count {
+  font-weight: bold;
+  font-size: 12px;
+  margin-bottom: 8px;
+  color: #555;
+}
+
+/* ===== COMMENTS SECTION ===== */
+.comment-section {
+  max-height: 200px;
+  overflow-y: auto;
+  margin-bottom: 10px;
+  padding: 10px;
+  background: #fafafa;
+  border-radius: 8px;
+  border: 1px solid #eee;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.comment {
+  display: flex;
+  gap: 8px;
+  font-size: 12px;
+}
+
+.comment-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.comment-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.comment-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.comment-username {
+  font-weight: 700;
+  font-size: 11px;
+  color: #333;
+}
+
+.comment-text {
+  font-size: 11px;
+  color: #555;
+  word-break: break-word;
+  line-height: 1.3;
+}
+
+.comment-delete-btn {
+  background: none;
+  border: none;
+  color: var(--ig-red);
+  font-size: 11px;
+  cursor: pointer;
+  padding: 0;
+  margin-left: auto;
+}
+
+/* ===== COMMENT INPUT ===== */
+.comment-input {
+  display: flex;
+  gap: 8px;
+  border-top: 1px solid #eee;
+  padding-top: 10px;
+}
+
+.comment-input input {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 18px;
+  font-size: 12px;
+  outline: none;
+  background: white;
+}
+
+.comment-input button {
+  background: var(--gold);
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 18px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 11px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.comment-input button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ===== LOADER ===== */
+.loading-overlay{
+  position:fixed;
+  inset:0;
+  background:white;
+  z-index:2000;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.spinner{
+  width:40px;
+  height:40px;
+  border:4px solid #f3f3f3;
+  border-top:4px solid var(--gold);
+  border-radius:50%;
+  animation:spin 1s linear infinite;
+}
+
+@keyframes spin{ 0%{transform:rotate(0deg);} 100%{transform:rotate(360deg);} }
+
+/* ===== DESKTOP (1024px+) ===== */
+@media (min-width: 1024px) {
+  main {
+    padding: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  h1 {
+    font-size: 32px;
+    margin-bottom: 25px;
+  }
+
+  .stories-container {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+  }
+
+  .story-card {
+    border-radius: 15px;
+  }
+
+  .story-media-container {
+    aspect-ratio: 9/16;
+    height: 280px;
+  }
+
+  .story-header {
+    padding: 15px;
+  }
+
+  .story-header-avatar {
+    width: 40px;
+    height: 40px;
+  }
+
+  .story-header-name {
+    font-size: 14px;
+  }
+
+  .interactions-section {
+    padding: 15px;
+  }
+
+  .comment-section {
+    max-height: 150px;
+  }
+
+  .comment {
+    font-size: 12px;
+  }
+
+  .comment-avatar {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+/* ===== TABLET (768px - 1023px) ===== */
+@media (min-width: 768px) and (max-width: 1023px) {
+  main {
+    padding: 20px;
+  }
+
+  h1 {
+    font-size: 28px;
+    margin-bottom: 20px;
+  }
+
+  .stories-container {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  .story-media-container {
+    aspect-ratio: 9/16;
+    height: 320px;
+  }
+
+  .comment-section {
+    max-height: 160px;
+  }
+}
+
+#login-msg {
+  text-align: center;
+  color: #888;
+  margin-top: 30px;
+  font-size: 14px;
+}
+
+/* Scrollbar */
+.comment-section::-webkit-scrollbar {
+  width: 4px;
+}
+
+.comment-section::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.comment-section::-webkit-scrollbar-thumb {
+  background: var(--gold);
+  border-radius: 2px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="loading-overlay" id="loader">
+<div class="spinner"></div>
+</div>
+
+<header>
+<div class="nav">
+<a href="/" class="brand"><span>ASSEMBLEIA DE DEUS JG</span></a>
+<div id="auth-area"></div>
+</div>
+</header>
+
+<main>
+<h1>CONJOSSAD 2026</h1>
+<div class="stories-container" id="stories-feed"></div>
+<div id="login-msg" style="display:none;">Faça login para interagir.</div>
+</main>
+
+<script type="module">
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm'
+
+const supabase = createClient(
+    'https://qkhfktmvfgjuwscsmpos.supabase.co',
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFraGZrdG12ZmdqdXdzY3NtcG9zIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE4NTIwMTIsImV4cCI6MjA4NzQyODAxMn0.2qd4vXCihGs5zZAppc71r-U1BAagzBnMgZZN_N5pwH8'
+)
+
+const authArea = document.getElementById('auth-area'),
+      storiesFeed = document.getElementById('stories-feed'),
+      loginMsg = document.getElementById('login-msg'),
+      loader = document.getElementById('loader');
+
+let currentUser = null;
+let lockingLikes = new Set();
+let channels = {};
+
+// AUTH
+window.login = () => supabase.auth.signInWithOAuth({
+    provider: 'google',
+    options: { redirectTo: window.location.href.split('?')[0] }
+});
+
+window.logout = async () => {
+    await supabase.auth.signOut();
+    location.reload();
+};
+
+async function updateAuthUI(user) {
+    if (user) {
+        currentUser = user;
+
+        const { data: profile } = await supabase
+            .from('profiles')
+            .select('*')
+            .eq('id', user.id)
+            .maybeSingle();
+
+        if (!profile) {
+            try {
+                await supabase.from('profiles').insert({
+                    id: user.id,
+                    username: user.user_metadata.full_name || user.email.split('@')[0],
+                    avatar: user.user_metadata.avatar_url || 'https://via.placeholder.com/36'
+                });
+            } catch (e) { console.error("Erro ao criar perfil:", e); }
+        }
+
+        const avatar = profile?.avatar || user.user_metadata.avatar_url || 'https://via.placeholder.com/36';
+        const name = profile?.username || user.user_metadata.full_name || 'Usuário';
+
+        authArea.innerHTML = `
+            <img src="${avatar}" alt="User">
+            <span>${name}</span>
+            <button onclick="logout()">Sair</button>
+        `;
+        loginMsg.style.display = 'none';
+    } else {
+        currentUser = null;
+        authArea.innerHTML = `<button onclick="login()">Entrar com Google</button>`;
+        loginMsg.style.display = 'block';
+    }
+
+    loadStories();
+}
+
+// LOAD STORIES
+async function loadStories() {
+    let { data: stories } = await supabase
+        .from('media_posts')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+    if (!stories || stories.length === 0) {
+        stories = [
+            {id: '1', type: 'image', url: 'CONJOSSAD 2026/CONJOSSAD 2026 1.jpg', author: 'ad.joaquimgomes'},
+            {id: '2', type: 'video', url: 'CONJOSSAD 2026/Video 1 CONJOSSAD-2026.mp4', author: 'ad.joaquimgomes'},
+            {id: '3', type: 'video', url: 'CONJOSSAD 2026/Video 2 CONJOSSAD-2026.mp4', author: 'ad.joaquimgomes'},
+        ];
+    }
+
+    storiesFeed.innerHTML = '';
+
+    stories.forEach((story) => {
+        const card = document.createElement('div');
+        card.className = 'story-card';
+        card.innerHTML = `
+            <div class="story-header">
+                <div class="story-header-avatar"></div>
+                <div class="story-header-name">${story.author}</div>
+            </div>
+            <div class="story-media-container ${story.type === 'video' ? 'video' : ''}">
+                ${story.type === 'video' 
+                    ? `<video class="story-media" controls><source src="${story.url}" type="video/mp4"></video>` 
+                    : `<img class="story-media" src="${story.url}">`
+                }
+            </div>
+            <div class="interactions-section">
+                <div class="story-actions">
+                    <button class="action-btn" id="btn-like-${story.id}" onclick="event.stopPropagation(); toggleLike(event, '${story.id}')">
+                        <span>♡</span>
+                        <span class="like-count" data-story="${story.id}">0</span>
+                    </button>
+                    <button class="action-btn">
+                        <span>💬</span>
+                        <span class="comment-count" data-story="${story.id}">0</span>
+                    </button>
+                </div>
+                <div class="likes-count"><strong class="like-count" data-story="${story.id}">0</strong> curtidas</div>
+                <div class="comment-section" id="comments-${story.id}"></div>
+                <div class="comment-input">
+                    <input type="text" placeholder="Comente..." id="input-${story.id}" ${!currentUser ? 'disabled' : ''}>
+                    <button onclick="addComment('${story.id}')" ${!currentUser ? 'disabled' : ''}>Enviar</button>
+                </div>
+            </div>
+        `;
+        storiesFeed.appendChild(card);
+        syncData(story.id);
+        subscribeRealtime(story.id);
+    });
+
+    loader.style.display = 'none';
+}
+
+// REALTIME
+function subscribeRealtime(postId) {
+    if (channels[postId]) return;
+
+    channels[postId] = supabase.channel(`rt-${postId}`)
+        .on('postgres_changes',
+            { event: '*', schema: 'public', table: 'likes', filter: `post_id=eq.${postId}` },
+            () => syncData(postId)
+        )
+        .on('postgres_changes',
+            { event: '*', schema: 'public', table: 'comments', filter: `post_id=eq.${postId}` },
+            () => syncData(postId)
+        )
+        .subscribe();
+}
+
+async function syncData(postId) {
+    try {
+        // Likes
+        const { count: totalLikes } = await supabase
+            .from('likes')
+            .select('*', { count: 'exact', head: true })
+            .eq('post_id', postId);
+
+        let jaCurti = false;
+
+        if (currentUser) {
+            const { data } = await supabase
+                .from('likes')
+                .select('id')
+                .eq('post_id', postId)
+                .eq('user_id', currentUser.id)
+                .maybeSingle();
+
+            jaCurti = !!data;
+        }
+
+        const btn = document.getElementById(`btn-like-${postId}`);
+        if (btn) {
+            btn.innerHTML = jaCurti
+                ? `<span>❤️</span> <span class="like-count" data-story="${postId}">${totalLikes || 0}</span>`
+                : `<span>♡</span> <span class="like-count" data-story="${postId}">${totalLikes || 0}</span>`;
+            btn.classList.toggle('liked', jaCurti);
+        }
+
+        document.querySelectorAll(`.like-count[data-story="${postId}"]`).forEach(el => {
+            el.textContent = totalLikes || 0;
+        });
+
+        // Comments
+        const { data: comms } = await supabase
+            .from('comments')
+            .select('id, content, user_id, created_at, profiles(username, avatar)')
+            .eq('post_id', postId)
+            .order('created_at', { ascending: true });
+
+        const commSection = document.getElementById(`comments-${postId}`);
+
+        if (commSection) {
+            commSection.innerHTML = (comms && comms.length > 0)
+                ? comms.map(c => `
+                    <div class="comment">
+                        <img src="${c.profiles?.avatar || 'https://via.placeholder.com/24'}" class="comment-avatar" alt="">
+                        <div class="comment-body">
+                            <div class="comment-header">
+                                <span class="comment-username">${c.profiles?.username || 'Anônimo'}</span>
+                                ${currentUser && c.user_id === currentUser.id
+                                    ? `<button class="comment-delete-btn" onclick="deleteComment('${c.id}','${postId}')">🗑</button>`
+                                    : ''
+                                }
+                            </div>
+                            <div class="comment-text">${c.content}</div>
+                        </div>
+                    </div>
+                `).join('')
+                : '';
+        }
+
+        document.querySelectorAll(`.comment-count[data-story="${postId}"]`).forEach(el => {
+            el.textContent = comms?.length || 0;
+        });
+
+    } catch (err) {
+        console.error("Erro ao sincronizar dados:", err);
+    }
+}
+
+// ACTIONS
+window.toggleLike = async (event, postId) => {
+    if (event) event.stopPropagation();
+
+    if (!currentUser) {
+        alert('Faça login para curtir');
+        return;
+    }
+
+    if (lockingLikes.has(postId)) return;
+    lockingLikes.add(postId);
+
+    try {
+        const { data: existingLike } = await supabase
+            .from('likes')
+            .select('id')
+            .eq('post_id', postId)
+            .eq('user_id', currentUser.id)
+            .maybeSingle();
+
+        if (existingLike) {
+            await supabase
+                .from('likes')
+                .delete()
+                .eq('id', existingLike.id);
+        } else {
+            await supabase
+                .from('likes')
+                .insert({
+                    post_id: postId,
+                    user_id: currentUser.id
+                });
+        }
+
+        syncData(postId);
+
+    } catch (err) {
+        console.error('Erro no like:', err);
+    }
+
+    lockingLikes.delete(postId);
+};
+
+window.deleteComment = async (commentId, postId) => {
+    if (!currentUser) return;
+
+    try {
+        await supabase
+            .from('comments')
+            .delete()
+            .eq('id', commentId)
+            .eq('user_id', currentUser.id);
+
+        syncData(postId);
+    } catch (err) {
+        console.error('Erro ao deletar comentário:', err);
+    }
+};
+
+window.addComment = async (postId) => {
+    const input = document.getElementById(`input-${postId}`);
+    const text = input.value.trim();
+    
+    if (!text) {
+        alert('Escreva algo para comentar');
+        return;
+    }
+
+    if (!currentUser) {
+        alert('Faça login para comentar');
+        return;
+    }
+
+    try {
+        await supabase.from('comments').insert({
+            post_id: postId,
+            user_id: currentUser.id,
+            content: text
+        });
+
+        input.value = '';
+        syncData(postId);
+    } catch (err) {
+        console.error('Erro ao comentar:', err);
+        alert('Erro ao enviar comentário');
+    }
+};
+
+// INIT
+supabase.auth.onAuthStateChange((event, session) => {
+    updateAuthUI(session?.user || null);
+});
+
+supabase.auth.getSession().then(({ data: { session } }) => {
+    updateAuthUI(session?.user || null);
+});
+</script>
+</body>
+</html>
