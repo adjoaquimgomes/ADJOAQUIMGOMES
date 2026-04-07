@@ -340,7 +340,8 @@ nav img{height:42px;}
 #prevBtn{left:20px;}
 #nextBtn{right:20px;}
 
-@media(hover:none)and(pointer:coarse){.nav-arrow{display:none;}}
+.nav-arrow{display:none;}
+@media(hover:hover)and(pointer:fine){.nav-arrow{display:flex;}}
 
 /* FOOTER */
 footer{
@@ -569,9 +570,8 @@ allItems.forEach((item, i) => {
     const video = document.createElement('video');
     video.src = item.dataset.src;
     video.muted = true; video.loop = true;
-    video.playsInline = true; video.autoplay = true; video.preload = "metadata";
-    video.style.objectFit = "cover";
-    video.play().catch(() => {});
+    video.playsInline = true; video.autoplay = true; video.preload = "auto";
+    video.style.objectFit = "cover"; video.style.width = "100%"; video.style.height = "100%";
     div.appendChild(video);
     const playBtn = document.createElement('div');
     playBtn.className = 'play'; playBtn.textContent = '▶ Play';
@@ -584,7 +584,12 @@ allItems.forEach((item, i) => {
   document.getElementById('gallery').appendChild(div);
 });
 
-setTimeout(() => document.querySelectorAll('#gallery video').forEach(v => v.play().catch(() => {})), 800);
+setTimeout(() => {
+  document.querySelectorAll('#gallery video').forEach(v => {
+    v.play().catch(() => {});
+    v.addEventListener('pause', () => { if (v.loop) v.play().catch(() => {}); });
+  });
+}, 600);
 
 // LIGHTBOX
 let currentIndex = 0;
